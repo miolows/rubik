@@ -14,7 +14,7 @@ nppBackup/
 installers/Windows/assets/
 build/
 dist/
-bin/
+#bin/
 *.egg-info/
 Thumbs.db
 desktop.ini
