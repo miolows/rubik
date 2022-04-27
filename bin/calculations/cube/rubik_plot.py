@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 class RubikHistory():
     def __init__(self, rubik):
         
-        self.num_axis = rubik.num_axis
-        self.num_faces = rubik.num_sides
+        self.num_axis = 3   #for the time being
+        self.num_faces = 2  #for the time being
         self.num_faces = self.num_axis * self.num_sides
         ''' Calculated in rubik '''
         #fit value of qbs

@@ -2,7 +2,7 @@ from abc import ABC
 import queue
 import numpy as np
 
-from bin.calculations.cube.rubik_plot import RubikPlot
+from bin.calculations.cube.rubik_plot import RubikHistory
 
 
 class Mediator(ABC):
@@ -41,7 +41,7 @@ class CalcVisuCommunication(Mediator):
         self.visu.mediator = self
         
         self.ambiguity = False      #A flag indicating discrepancy between the modules
-        self.calc_plot = RubikPlot(6)
+        #self.calc_plot = RubikHistory(6)
 
     def notify(self, event: str, *data) -> None:
         events = {
@@ -63,7 +63,7 @@ class CalcVisuCommunication(Mediator):
         position = self.calc.get_layer_pos(self.calc.layers(axis)[layer_n])
         response = (data, position)
         self.notify('Rotation Response', *response)
-        self.plot_value()
+       # self.plot_value()
         
         
     def calc_blind_rotation(self, *data):
@@ -99,7 +99,7 @@ class CalcVisuCommunication(Mediator):
     def visu_reset(self, *data):
         pass
 
-
+'''
     def plot_value(self):
         val = self.calc.rubik_val
         shape = self.calc.shape
@@ -111,4 +111,4 @@ class CalcVisuCommunication(Mediator):
         
         self.calc_plot.add_data(faces)
         self.calc_plot.plot()
-
+'''
