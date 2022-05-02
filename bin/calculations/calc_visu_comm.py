@@ -50,6 +50,7 @@ class CalcVisuCommunication(Mediator):
                 'Rubik Mix':                self.calc_mix,
                 'Rubik Blind Mix':          self.calc_blind_mix,
                 'Rubik Reset':              self.calc_reset,
+                # 'Camera POV':               self.camera_pov,
                 
                 'Rotation Response':        self.visu_rotation,
                 'Mix Response':             self.visu_mix,
@@ -58,7 +59,8 @@ class CalcVisuCommunication(Mediator):
         events[event](*data)
         
     def calc_rotation(self, *data):
-        self.calc.rotate(*data)
+        # self.calc.rotate(*data)
+        # self.calc.print_faces_interpret(self.calc.colors)
         axis, layer_n, _ = data
         position = self.calc.get_layer_pos(self.calc.layers(axis)[layer_n])
         response = (data, position)
@@ -87,6 +89,19 @@ class CalcVisuCommunication(Mediator):
         pass
     def calc_reset(self, *data):
         pass
+    
+    # def camera_pov(self, *data):
+    #     h_num, p_num, r_num = np.absolute(data) #number of flips
+    #     h_dir, p_dir, r_dir = np.sign(data) #direcktion of flips
+                
+    #     for x in range(p_num):
+    #         self.calc.flip(0, -p_dir)
+            
+    #     for y in range(r_num):
+    #         self.calc.flip(1, -r_dir)
+            
+    #     for z in range(h_num):
+    #         self.calc.flip(2, -h_dir) 
         
     
     

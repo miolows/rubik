@@ -31,6 +31,12 @@ class VisuCalcCommunication(CVCommComponent, IEventOrganiser):
         self.anim_speed = self.mix_anim_speed
         self.mediator.notify('Rubik Mix', num)
         
+    
+    # @handle_event('Camera POV')
+    # def camera_pov(self, *data):
+    #     self.mediator.notify('Camera POV', *data)
+    #     event_sender("Shadow Flip", *data)
+
        
         
     ''' Calc -> Visu: Handle responses of the calculations module '''

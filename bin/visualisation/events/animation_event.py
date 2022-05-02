@@ -2,7 +2,7 @@ from direct.showbase.DirectObject import DirectObject
 from direct.interval.IntervalGlobal import Sequence, Func
 from panda3d.core import NodePathCollection
 import queue
-
+import numpy as np
 from bin.visualisation.events.ievent import *
 
 
@@ -25,6 +25,12 @@ class RubikAnimationHandler(IEventOrganiser):
         else:
             self._rotation_tasks_queue.put(data)
     
+    
+    # @handle_event('Shadow Flip')
+    # def shadow_flip(self, *data):
+    #     flip = tuple(np.multiply(-90,data))
+    #     self._rubik_node_path.setHpr(flip)
+
     
     def invoke_next_event(self):
         self._task_proceed = False

@@ -2,6 +2,7 @@ from direct.showbase.DirectObject import DirectObject
 # from panda3d.core import *
 
 from bin.visualisation.events.ievent import *
+import numpy as np
 
 
 class CameraHandler(IEventOrganiser):
@@ -13,7 +14,7 @@ class CameraHandler(IEventOrganiser):
         self.camera.reparentTo(self.camera_anchor)
         self.camera_holder = self.camera_anchor.attachNewNode("Camera Holder")
         self.taskMgr = base.taskMgr
-       
+        
         #Rotation variables
         self.camera_rotation_task_name = "Camera Rotation"
         self.camera_rotation_speed = 150
@@ -27,6 +28,10 @@ class CameraHandler(IEventOrganiser):
         self.cam_zoom_step = 3
         self.cam_zoom_pos = -10
         
+        #Camera POV variables
+        self.pov_border = tuple(self.camera.getHpr())
+        self.cam_switch = 45
+        
         self.cam.setY(self.cam_zoom_pos)
 
 
@@ -38,10 +43,13 @@ class CameraHandler(IEventOrganiser):
         self.taskMgr.add(self.camera_rotation_task, 
                          self.camera_rotation_task_name)
         
+
+        
     @handle_event('Camera Rotation Stop')        
     def camera_rotation_stop(self):
         self.taskMgr.remove(self.camera_rotation_task_name)
         # self.camera.wrtReparentTo(self.camera_anchor)
+    
     
     @handle_event('Camera Zoom In')
     def zoom_in(self):
@@ -63,7 +71,7 @@ class CameraHandler(IEventOrganiser):
         (from the user's point of view).                                   
         
         |Note:
-        ||This algorithm mimics the default camera rotation control. 
+        ||This algorithm mimics a default camera rotation control. 
         ||The disadvantage is that if there is a need to add another camera
         ||event that needs to be independent of the actual camera position in 
         ||the Scene Graph, an additional handle node is needed, bBut it can 
@@ -88,9 +96,29 @@ class CameraHandler(IEventOrganiser):
             self.mouse_start_pos = (x,y)
             self.camera.wrtReparentTo(self.camera_anchor)
             camera_rotation_node.removeNode()
+            # self.camera_pov()
         return task.cont
     
-    
+    ''' A struggle to code a camera point of view. In vain, mostly because: 
+        1. it doesn't work properly in the panda module,
+        2. it has some problems with turning camera near axis,
+        3. it generates too many spread changes,
+        4. can generate further issues with an ambiguity between calc and visu modules.
+    '''
+    # def camera_pov(self):
+    #     new_camera_pos = tuple(self.camera.getHpr())
+    #     delta = np.subtract(new_camera_pos, self.pov_border)
+    #     check_flip = delta / self.cam_switch
+    #     check_flip = [int(x) for x in check_flip]
+    #     no_flip = all(hpr == 0 for hpr in check_flip)
+    #     if no_flip:
+    #         pass
+    #     else:
+    #         camera_flip = tuple(np.multiply(90,check_flip))
+    #         camera_flip = tuple(np.add(self.pov_border, camera_flip))
+    #         self.pov_border= camera_flip
+    #         messenger.send("Camera POV", check_flip)
+            
     def wheel(self, direction:int):
         '''
         Performs camera zoom events.

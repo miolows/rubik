@@ -11,6 +11,15 @@ from bin.calculations.cube.wrapper import timer
 
 class Rubik(CVCommComponent):
     def __init__(self, s=(3,3,3)):
+        self.colors = {
+            0: "Black",     # HIDDEN
+            1: "Green",     # RIGHT
+            2: "Blue",      # LEFT
+            3: "Red",       # FRONT
+            4: "Orange",    # BACK
+            5: "Yellow",    # DOWN
+            6: "White",     # UP
+        }
         CVCommComponent.__init__(self)
         self._shape = s
         self.rubik = np.ndarray((self.shape),dtype="object") #'''<- 18.03 dodano dtype'''
@@ -122,8 +131,8 @@ class Rubik(CVCommComponent):
             return list(map(lambda x: x.get_face(*coord), l))
         
     ''' ****************************************************************** '''
-    ''' *** converting numbers, for example, into string representation *** '''
-    ''' *** i should handle them somewhere outside this class *** '''
+    ''' *** converting numbers into string representation *** '''
+    ''' *** it should be handled somewhere outside this class *** '''
 
     def interpret_rubik_layer(self, interpreter, l, *coord):
         '''Return a part of the qb array and represent it using a given dictionary'''
@@ -180,11 +189,17 @@ class Rubik(CVCommComponent):
 
     def flip(self, ax, direction):
         '''
-        Rotation of all layers of the axis ax in the same direction
+        Rotate all layers of an axis ax
         '''
+        
+        # print("Test flip", ax, direction)
+        # print("--------------------")
+        # self.print_faces_interpret(self.colors)
         for l in range(self.shape[ax]):
             self.rotate(ax, l, direction)
-        
+            
+        # self.print_faces_interpret(self.colors)
+        # print("--------------------")        
      
     def rand_rotate(self):
         rand_ax = random.randint(0, len(self.shape)-1)

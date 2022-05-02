@@ -64,7 +64,7 @@ class App(ShowBase):
         
         environ = self.loader.loadModel('environment')
         environ.setScale(0.1)
-        environ.setZ(-10)
+        environ.setZ(-15)
         environ.reparentTo(self.render)
 
 
